@@ -1,0 +1,27 @@
+{
+    "name": "wordsonline/translation-manager",
+    "description": "The translation manager made by Joncker Team",
+    "type": "oxideshop-module",
+    "keywords": ["oxid", "modules", "eShop"],
+    "homepage": "https://www.wordsonline.com/",
+    "version": "1.0.0",
+    "license": [
+      "GPL-3.0-only"
+    ],
+    "authors": [
+        {
+            "name": "Joncker Team",
+            "email": "helpdesk@wordsonline.com"
+        }
+    ],
+    "extra": {
+      "oxideshop": {
+        "target-directory": "wordsonline/translation-manager"
+      }
+    },
+    "autoload": {
+      "psr-4": {
+        "WordsOnline\\translation-manager\\": "./src"
+      }
+    }
+  }
