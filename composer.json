@@ -17,6 +17,9 @@
     "require": {
         "php": "^8.0 | ^8.1"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "prefer-dist": true,
     "extra": {
       "oxideshop": {
         "target-directory": "wordsonline/translation-manager"
@@ -24,7 +27,7 @@
     },
     "autoload": {
       "psr-4": {
-        "WordsOnline\\translation-manager\\": "./src"
+        "WordsOnline\\TranslationManager\\": "./src"
       }
     }
   }
