@@ -13,7 +13,7 @@ $aModule = [
         'de' => 'Modul für die Übersetzung von Shoptexten.',
         'en' => 'Module for the text translation.',
     ],
-    'thumbnail'    => 'logo.png',
+    'thumbnail'    => 'img/logo.png',
     'version'      => '1.0.0',
     'author'       => 'Jonckers Team',
     'url'          => 'https://www.wordsonline.com',
