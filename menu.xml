@@ -2,7 +2,11 @@
 <OX>
     <OXMENU id="WOTM">
         <MAINMENU id="wordsonline_translation_manager">
-          
+            <MAINMENU id="WO_HOME">
+            <SUBMENU id="WO_JOB" cl="wo_job_view"/>  
+            <SUBMENU id="WO_SETTINGS" cl="wo_setting_view"/>         
+            <SUBMENU id="WO_HELP" cl="wo_help_view"/>
+        </MAINMENU>
         </MAINMENU>
     </OXMENU>
 </OX>

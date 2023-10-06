@@ -20,138 +20,54 @@ use OxidEsales\Eshop\Core\DatabaseProvider;
     private static function _createProjectTable()
     {
 
-        $sCreateProjectMainTable = "CREATE TABLE IF NOT EXISTS `wotm_project` (
+        $sCreateJobTable = "CREATE TABLE IF NOT EXISTS `wo_job` (
           `OXID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Unique Project ID',
           `OXSHOPID` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Shop ID',
-          `EXTERNAL_ID` int(5) NOT NULL COMMENT 'Project Id in EuroText Database',
-          `TOTAL_ITEMS` int(11) NOT NULL COMMENT 'Total amount of items in EuroText Datebase',
-          `FINISHED_ITEMS` int(11) NOT NULL COMMENT 'Amount of items with finished status in EuroText Database',
-          `PERCENT_FINISHED` int(11) NOT NULL COMMENT 'Calculated percentage of project readiness',
-          `NAME` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Project name',
+          `NAME` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Job name',
           `LANG_ORIGIN` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Original language',
           `LANG_TARGET` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Target languages',
           `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Timestamp when created',
           `UPDATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp when updated',
           `STATUS` int(11) NOT NULL DEFAULT '0' COMMENT 'Project status',
-          `ONLY_UNTRANSLATED` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 - select all items for translations, 1 - select only those without translation',
-          `START_AFTER_EXPORT` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 - dont start, 1 - start',
-          `TRANSMITTED` tinyint(4) NOT NULL DEFAULT '0',
-          `SKIPPED` tinyint(4) NOT NULL DEFAULT '0',
-          `FAILED` tinyint(4) NOT NULL DEFAULT '0',
-          PRIMARY KEY (`OXID`)
+          `ID` int(11) NOT NULL AUTO_INCREMENT,
+          `PROJECT_ID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+          `REQUEST_ID` varchar(255) COLLATE utf8mb4_unicode_ci COMMENT 'Request guid from WordsOnline',
+          PRIMARY KEY (`ID`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-        DatabaseProvider::getDb()->execute($sCreateProjectMainTable);
+        DatabaseProvider::getDb()->execute($sCreateJobTable);
 
-        $sCreateProjectToCmsTable = "CREATE TABLE IF NOT EXISTS `wotm_project2cms` (
-          `OXID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-          `PROJECT_ID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-          `OXCMSID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+        $sCreateJobItemTable = "CREATE TABLE IF NOT EXISTS `wo_job_items` (
+          `JOB_ID` int(11) NOT NULL NOT NULL,
+          `ID` int(11) NOT NULL AUTO_INCREMENT,
+          `TABLE_ID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+          `TABLE_NAME` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'table name',
           `STATUS` int(11) NOT NULL DEFAULT '0',
-          `EXPORTABLE` tinyint(4) NOT NULL DEFAULT '0',
-          `SKIPPED` tinyint(4) NOT NULL DEFAULT '0',
-          `TRANSMITTED` tinyint(4) NOT NULL DEFAULT '0',
-          `FAILED` tinyint(4) NOT NULL DEFAULT '0',
-          PRIMARY KEY (`OXID`),
-          KEY `WOTM_PROJECT_ID_OXCMSID` (`PROJECT_ID`,`OXCMSID`)
+          PRIMARY KEY (`ID`),
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-        DatabaseProvider::getDb()->execute($sCreateProjectToCmsTable);
+        DatabaseProvider::getDb()->execute($sCreateJobItemTable);
 
-        $sCreateProjectToCategoryTable = "CREATE TABLE IF NOT EXISTS `wotm_project2category` (
-          `OXID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-          `PROJECT_ID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-          `OXCATEGORYID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-          `STATUS` int(11) NOT NULL DEFAULT '0',
-          `EXPORTABLE` tinyint(4) NOT NULL DEFAULT '0',
-          `SKIPPED` tinyint(4) NOT NULL DEFAULT '0',
-          `TRANSMITTED` tinyint(4) NOT NULL DEFAULT '0',
-          `FAILED` tinyint(4) NOT NULL DEFAULT '0',
-          PRIMARY KEY (`OXID`),
-          KEY `WOTM_PROJECT_ID_OXCATEGORYID` (`PROJECT_ID`,`OXCATEGORYID`)
+        $sCreateConfigTable = "CREATE TABLE IF NOT EXISTS `wo_config` (
+          `ID` int(11) NOT NULL AUTO_INCREMENT,
+          `PROJECT_ID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+          `USERNAME` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+          `PASSWORD` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,        
+          PRIMARY KEY (`ID`),
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-        DatabaseProvider::getDb()->execute($sCreateProjectToCategoryTable);
+        DatabaseProvider::getDb()->execute($sCreateConfigTable);
 
-        $sCreateProjectToAttributeTable = "CREATE TABLE IF NOT EXISTS `wotm_project2attribute` (
-          `OXID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-          `PROJECT_ID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-          `OXATTRIBUTEID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-          `STATUS` int(11) NOT NULL DEFAULT '0',
-          `EXPORTABLE` tinyint(4) NOT NULL DEFAULT '0',
-          `SKIPPED` tinyint(4) NOT NULL DEFAULT '0',
-          `TRANSMITTED` tinyint(4) NOT NULL DEFAULT '0',
-          `FAILED` tinyint(4) NOT NULL DEFAULT '0',
-          PRIMARY KEY (`OXID`),
-          KEY `WOTM_PROJECT_ID_OXATTRIBUTEID` (`PROJECT_ID`,`OXATTRIBUTEID`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+        $sCreateLogTable = "CREATE TABLE IF NOT EXISTS `wo_config` (
+            `ID` int(11) NOT NULL AUTO_INCREMENT,
+            `JOB_ID` int(11) NOT NULL NOT NULL,
+            `DESCRIPTION` varchar(max) COLLATE utf8mb4_unicode_ci NOT NULL,
+            `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Timestamp when created',
+            PRIMARY KEY (`ID`),
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+  
+          DatabaseProvider::getDb()->execute($sCreateLogTable);
 
-        DatabaseProvider::getDb()->execute($sCreateProjectToAttributeTable);
-
-        $sCreateProjectToArticleTable = "CREATE TABLE IF NOT EXISTS `wotm_project2article` (
-          `OXID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-          `PROJECT_ID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-          `OXARTICLEID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-          `STATUS` int(11) NOT NULL DEFAULT '0',
-          `EXPORTABLE` tinyint(4) NOT NULL DEFAULT '0',
-          `SKIPPED` tinyint(4) NOT NULL DEFAULT '0',
-          `TRANSMITTED` tinyint(4) NOT NULL DEFAULT '0',
-          `FAILED` tinyint(4) NOT NULL DEFAULT '0',
-          PRIMARY KEY (`OXID`),
-          KEY `WOTM_PROJECT_ID_OXARTICLEID` (`PROJECT_ID`,`OXARTICLEID`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
-
-        DatabaseProvider::getDb()->execute($sCreateProjectToArticleTable);
-
-        $sCreateImportItems = "CREATE TABLE IF NOT EXISTS `wotm_importjobs` (
-          `OXID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-          `PROJECT_ID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-          `STATUS` tinyint(1) NOT NULL DEFAULT '0',
-          `EXTERNAL_PROJECT_ID` int(11) NOT NULL,
-          `EXTERNAL_ID` int(11) NOT NULL,
-          `CREATED_AT` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
-
-        DatabaseProvider::getDb()->execute($sCreateImportItems);
-
-        $aColumns = DatabaseProvider::getDb()->getAll("SHOW COLUMNS FROM `wotm_project` LIKE 'ONLY_UNTRANSLATED';");
-        if (0 === count($aColumns)) {
-            $sql = "ALTER TABLE `wotm_project`
-            ADD `ONLY_UNTRANSLATED` tinyint(4) NOT NULL DEFAULT '0';";
-            DatabaseProvider::getDb()->execute($sql);
-        }
-        unset($aColumns);
-
-        $aColumns = DatabaseProvider::getDb()->getAll("SHOW COLUMNS FROM `wotm_project` LIKE 'START_AFTER_EXPORT';");
-        if (0 === count($aColumns)) {
-            $sql = "ALTER TABLE `wotm_project`
-            ADD `START_AFTER_EXPORT` tinyint(4) NOT NULL DEFAULT '0';";
-            DatabaseProvider::getDb()->execute($sql);
-        }
-        unset($aColumns);
-
-        $aColumns = DatabaseProvider::getDb()->getAll("SHOW COLUMNS FROM `wotm_project` LIKE 'TRANSMITTED';");
-        if (0 === count($aColumns)) {
-            $sql = "ALTER TABLE `wotm_project`
-            ADD `TRANSMITTED` tinyint(4) NOT NULL DEFAULT '0';";
-            DatabaseProvider::getDb()->execute($sql);
-        }
-        unset($aColumns);
-
-        $aColumns = DatabaseProvider::getDb()->getAll("SHOW COLUMNS FROM `wotm_project` LIKE 'SKIPPED';");
-        if (0 === count($aColumns)) {
-            $sql = "ALTER TABLE `wotm_project`
-            ADD `SKIPPED` tinyint(4) NOT NULL DEFAULT '0';";
-            DatabaseProvider::getDb()->execute($sql);
-        }
-        unset($aColumns);
-
-        $aColumns = DatabaseProvider::getDb()->getAll("SHOW COLUMNS FROM `wotm_project` LIKE 'FAILED';");
-        if (0 === count($aColumns)) {
-            $sql = "ALTER TABLE `wotm_project`
-            ADD `FAILED` tinyint(4) NOT NULL DEFAULT '0';";
-            DatabaseProvider::getDb()->execute($sql);
-        }
-        unset($aColumns);
+       
     }
 }

@@ -18,7 +18,12 @@ $aModule = [
     'author'       => 'Jonckers Team',
     'url'          => 'https://www.wordsonline.com',
     'email'        => 'nguyenxuan.luan@jonckers.com',
-    'controllers' => [],
+    'controllers' => [
+        'wo_setting_view'    => \WordsOnline\TranslationManager\Controller\Admin\SettingController::class,
+        'wo_help_view'    => \WordsOnline\TranslationManager\Controller\Admin\HelpController::class,
+        'wo_job_view'    => \WordsOnline\TranslationManager\Controller\Admin\JobController::class,
+        'wo_log_view'    => \WordsOnline\TranslationManager\Controller\Admin\LogController::class
+    ],
     'templates' => [],
     'events' => [
         'onActivate' => ModuleCore\Installer::class . '::onActivate',
