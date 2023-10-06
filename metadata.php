@@ -19,7 +19,6 @@ $aModule = [
     'url'          => 'https://www.wordsonline.com',
     'email'        => 'nguyenxuan.luan@jonckers.com',
     'controllers' => [
-        'wo_setting_view'    => \WordsOnline\TranslationManager\Controller\Admin\SettingController::class,
         'wo_help_view'    => \WordsOnline\TranslationManager\Controller\Admin\HelpController::class,
         'wo_job_view'    => \WordsOnline\TranslationManager\Controller\Admin\JobController::class,
         'wo_log_view'    => \WordsOnline\TranslationManager\Controller\Admin\LogController::class
@@ -29,7 +28,26 @@ $aModule = [
         'onActivate' => ModuleCore\Installer::class . '::onActivate',
         'onDeactivate' =>  ModuleCore\Installer::class . '::onDeactivate',
     ],
-    'settings' => []
+    'settings' => [
+        [
+            'group' => 'SETTINGS',
+            'name' => 'wo_project_id',
+            'type' => 'str',
+            'value' => ''
+        ],
+        [
+            'group' => 'SETTINGS',
+            'name' => 'wo_username',
+            'type' => 'str',
+            'value' => ''
+        ],
+        [
+            'group' => 'SETTINGS',
+            'name'  => 'wo_password',
+            'type'  => 'str',
+            'value' => ''
+        ],
+    ]
 ];
 
 ?>
