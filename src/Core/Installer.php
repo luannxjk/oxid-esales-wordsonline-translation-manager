@@ -58,10 +58,10 @@ use OxidEsales\Eshop\Core\DatabaseProvider;
 
         DatabaseProvider::getDb()->execute($sCreateConfigTable);
 
-        $sCreateLogTable = "CREATE TABLE IF NOT EXISTS `wo_config` (
+        $sCreateLogTable = "CREATE TABLE IF NOT EXISTS `wo_log` (
             `ID` int(11) NOT NULL AUTO_INCREMENT,
-            `JOB_ID` int(11) NOT NULL NOT NULL,
-            `DESCRIPTION` varchar(max) COLLATE utf8mb4_unicode_ci NOT NULL,
+            `JOB_ID` int(11) NOT NULL,
+            `DESCRIPTION` LONGTEXT,
             `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Timestamp when created',
             PRIMARY KEY (`ID`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
