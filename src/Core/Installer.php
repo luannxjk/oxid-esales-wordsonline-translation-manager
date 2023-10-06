@@ -43,7 +43,7 @@ use OxidEsales\Eshop\Core\DatabaseProvider;
           `TABLE_ID` char(32) COLLATE utf8mb4_unicode_ci NOT NULL,
           `TABLE_NAME` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'table name',
           `STATUS` int(11) NOT NULL DEFAULT '0',
-          PRIMARY KEY (`ID`),
+          PRIMARY KEY (`ID`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
         DatabaseProvider::getDb()->execute($sCreateJobItemTable);
@@ -53,7 +53,7 @@ use OxidEsales\Eshop\Core\DatabaseProvider;
           `PROJECT_ID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
           `USERNAME` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
           `PASSWORD` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,        
-          PRIMARY KEY (`ID`),
+          PRIMARY KEY (`ID`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
         DatabaseProvider::getDb()->execute($sCreateConfigTable);
@@ -63,7 +63,7 @@ use OxidEsales\Eshop\Core\DatabaseProvider;
             `JOB_ID` int(11) NOT NULL NOT NULL,
             `DESCRIPTION` varchar(max) COLLATE utf8mb4_unicode_ci NOT NULL,
             `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Timestamp when created',
-            PRIMARY KEY (`ID`),
+            PRIMARY KEY (`ID`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
   
           DatabaseProvider::getDb()->execute($sCreateLogTable);
