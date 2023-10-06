@@ -20,6 +20,11 @@ $aModule = [
     'author'       => 'Jonckers Team',
     'url'          => 'https://www.wordsonline.com',
     'email'        => 'nguyenxuan.luan@jonckers.com',
+    'extend'      => [
+        \OxidEsales\Eshop\Application\Controller\Admin\HelpController::class => ModuleAdminController\HelpController::class,
+        \OxidEsales\Eshop\Application\Controller\Admin\JobController::class => ModuleAdminController\JobController::class,
+        \OxidEsales\Eshop\Application\Controller\Admin\LogController::class => ModuleAdminController\LogController::class
+    ],
     'controllers' => [
         'wo_help_view'    => ModuleAdminController\HelpController::class,
         'wo_job_view'    => ModuleAdminController\JobController::class,
