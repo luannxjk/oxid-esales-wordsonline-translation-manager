@@ -1,6 +1,8 @@
 <?php
 
 use WordsOnline\TranslationManager\Core as ModuleCore;
+use WordsOnline\TranslationManager\Controller\Admin as ModuleAdminController;
+use WordsOnline\TranslationManager as ModuleTranslationManager;
 
 $sMetadataVersion = '2.1';
 $aModule = [
@@ -22,6 +24,9 @@ $aModule = [
         'wo_help_view'    => \WordsOnline\TranslationManager\Controller\Admin\HelpController::class,
         'wo_job_view'    => \WordsOnline\TranslationManager\Controller\Admin\JobController::class,
         'wo_log_view'    => \WordsOnline\TranslationManager\Controller\Admin\LogController::class
+    ],
+    'extend'      => [
+        OxidCore\WordsOnlineConstant::class   => ModuleTranslationManager\WordsOnlineConstant::class,     
     ],
     'templates' => [],
     'events' => [
